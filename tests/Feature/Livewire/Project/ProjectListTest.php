@@ -12,6 +12,8 @@ use App\Models\User;
 
 class ProjectListTest extends TestCase
 {
+    use RefreshDatabase;
+    
     private $user;
     public function setUp(): void
     {

@@ -9,6 +9,7 @@ use App\Livewire\Auth\Passwords\Reset;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\Verify;
 use App\Livewire\Project\ProjectList;
+use App\Livewire\Project\ContentPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,4 +58,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('projects', ProjectList::class)
         ->name('project.project-list');
+    
+    Route::get('content/{sn}', ContentPage::class)
+        ->name('project.content-page');
 });

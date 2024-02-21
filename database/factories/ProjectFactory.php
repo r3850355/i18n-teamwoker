@@ -18,6 +18,7 @@ class ProjectFactory extends Factory
     {
         return [
             'user_id' => 1,
+            'sn' => substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9),
             'name' => fake()->name(),
             'description' => fake()->text()
         ];

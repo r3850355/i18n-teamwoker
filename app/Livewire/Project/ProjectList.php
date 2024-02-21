@@ -5,6 +5,7 @@ namespace App\Livewire\Project;
 use Livewire\Component;
 use Auth;
 use App\Models\Project;
+use App\Models\Content;
 
 class ProjectList extends Component
 {
@@ -45,6 +46,7 @@ class ProjectList extends Component
 
         if (!isset($this->selectedData['user_id'])) {
             $this->selectedData['user_id'] = Auth::user()->id;
+            $this->selectedData['sn'] = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
             $this->selectedData['id'] = NULL;
         }
 
@@ -55,7 +57,13 @@ class ProjectList extends Component
     public function delete ()
     {
         Project::find($this->selectedDeleteId)->delete();
+        Content::where('project_id', $this->selectedDeleteId)->delete();
         $this->showDeleteDialog = false;
+    }
+
+    public function gotoContent($sn)
+    {
+        return redirect()->intended(route('project.content-page', $sn));
     }
 
     public function getProjectsProperty()
@@ -65,6 +73,6 @@ class ProjectList extends Component
 
     public function render()
     {
-        return view('livewire.project.project-list')->extends('layouts.app');;
+        return view('livewire.project.project-list')->extends('layouts.app');
     }
 }
