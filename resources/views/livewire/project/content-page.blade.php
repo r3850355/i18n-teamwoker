@@ -1,19 +1,17 @@
 @section('title', 'Content')
 
-<div class="px-4 sm:px-6 lg:px-8" x-data="{ showDialog: @entangle('showDialog'), showDeleteDialog: @entangle('showDeleteDialog') }">
+<div class="px-4 sm:px-6 lg:px-8" x-data="{ showDialog: @entangle('showDialog'), showDeleteDialog: @entangle('showDeleteDialog'), showImportDialog: @entangle('showImportDialog') }">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
       <h1 class="text-base font-semibold leading-6 text-gray-900">{{ $project->name }} 的文本</h1>
       <p class="mt-2 text-sm text-gray-700">這裡顯示專案「{{ $project->name }}」中的所有文本</p>
     </div>
     <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-      <button type="button" wire:click="create()"
-      class="inline-block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">匯入</button>
-      <button type="button" wire:click="create()"
-      class="inline-block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">匯出</button>
+      <button type="button" wire:click="openImportDialog()"
+        class="inline-block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">匯入</button>
       <button type="button" wire:click="create()"
         class="inline-block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">建立新文本</button>
-      </div>
+    </div>
   </div>
   <div class="mt-8 flow-root">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -37,11 +35,13 @@
               <tr wire:key="project.id">
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{{ $idx + 1 }}</td>
                 @if (!$content->en_US || !$content->zh_TW || !$content->zh_CN || !$content->ja_JP)
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 bg-red-300 sm:pl-0" wire:click="select({!! $content->id !!})">
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 bg-red-300 sm:pl-0"
+                    wire:click="select({!! $content->id !!})">
                     <a href="#">{{ $content->key }}</a>
                   </td>
                 @else
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 sm:pl-0" wire:click="select({!! $content->id !!})">
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 sm:pl-0"
+                    wire:click="select({!! $content->id !!})">
                     <a href="#">{{ $content->key }}</a>
                   </td>
                 @endif
@@ -164,4 +164,7 @@
       </div>
     </div>
   </x-dialog>
+
+  {{-- import DIALOG --}}
+  @livewire('project.components.import-json-dialog', ["ref" => $showImportDialog, "project_id" => $project->id])
 </div>

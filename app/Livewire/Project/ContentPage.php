@@ -14,6 +14,7 @@ class ContentPage extends Component
     // dialog control
     public $showDialog = false;
     public $showDeleteDialog = false;
+    public $showImportDialog = false;
 
     public $selectedData = [];
     public $selectedDeleteId;
@@ -21,6 +22,18 @@ class ContentPage extends Component
     protected $rules = [
         'selectedData.key' => 'required'
     ];
+
+    protected $listeners = ['closeImportDialog'];
+
+    public function openImportDialog()
+    {
+        $this->showImportDialog = true;
+    }
+
+    public function closeImportDialog()
+    {
+        $this->showImportDialog = false;
+    }
 
 
     public function create()
@@ -61,6 +74,10 @@ class ContentPage extends Component
         Content::updateOrCreate(['id' => $this->selectedData['id']], $this->selectedData);
         $this->showDialog = false;
     }
+
+    /**
+     * 
+     */
 
 
     public function mount($sn)
