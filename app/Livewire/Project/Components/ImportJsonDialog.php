@@ -29,9 +29,7 @@ class ImportJsonDialog extends Component
         // check format is json
         if ($this->__isJson($this->importData)) {
             $json = json_decode($this->importData, 320);
-            foreach($json as $item) {
-                $key = array_keys($item)[0];
-                $word = $item[$key];
+            foreach($json as $key => $word) {
                 $content = Content::where('project_id', $this->project_id)
                     ->where('key', $key)
                     ->firstOrNew(['project_id' => $this->project_id, 'key' => $key]);
