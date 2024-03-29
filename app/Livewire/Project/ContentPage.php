@@ -15,6 +15,7 @@ class ContentPage extends Component
     public $showDialog = false;
     public $showDeleteDialog = false;
     public $showImportDialog = false;
+    public $showExportDialog = false;
 
     public $selectedData = [];
     public $selectedDeleteId;
@@ -25,6 +26,7 @@ class ContentPage extends Component
 
     protected $listeners = ['closeImportDialog'];
 
+    
     public function openImportDialog()
     {
         $this->showImportDialog = true;
@@ -35,6 +37,15 @@ class ContentPage extends Component
         $this->showImportDialog = false;
     }
 
+    public function openExportDialog()
+    {
+        $this->showExportDialog = true;
+    }
+
+    public function closeExportDialog()
+    {
+        $this->showExportDialog = false;
+    }
 
     public function create()
     {

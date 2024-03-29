@@ -1,6 +1,6 @@
 @section('title', 'Content')
 
-<div class="px-4 sm:px-6 lg:px-8" x-data="{ showDialog: @entangle('showDialog'), showDeleteDialog: @entangle('showDeleteDialog'), showImportDialog: @entangle('showImportDialog') }">
+<div class="px-4 sm:px-6 lg:px-8" x-data="{ showDialog: @entangle('showDialog'), showDeleteDialog: @entangle('showDeleteDialog'), showImportDialog: @entangle('showImportDialog'), showExportDialog: @entangle('showExportDialog') }">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
       <h1 class="text-base font-semibold leading-6 text-gray-900">{{ $project->name }} 的文本</h1>
@@ -9,6 +9,8 @@
     <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
       <button type="button" wire:click="openImportDialog()"
         class="inline-block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">匯入</button>
+        <button type="button" wire:click="openExportDialog()"
+        class="inline-block rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">匯出</button>
       <button type="button" wire:click="create()"
         class="inline-block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">建立新文本</button>
     </div>
@@ -33,23 +35,23 @@
           <tbody class="divide-y divide-gray-200">
             @foreach ($this->contents as $idx => $content)
               <tr wire:key="project.id">
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{{ $idx + 1 }}</td>
+                <td class="whitespace-nowrap px-3 py-2 text-sm text-gray-500 text-center">{{ $idx + 1 }}</td>
                 @if (!$content->en_US || !$content->zh_TW || !$content->zh_CN || !$content->ja_JP)
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 bg-red-300 sm:pl-0"
+                  <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm font-bold text-gray-900 bg-red-300 sm:pl-0"
                     wire:click="select({!! $content->id !!})">
                     <a href="#">{{ $content->key }}</a>
                   </td>
                 @else
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 sm:pl-0"
+                  <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm font-bold text-gray-900 sm:pl-0"
                     wire:click="select({!! $content->id !!})">
                     <a href="#">{{ $content->key }}</a>
                   </td>
                 @endif
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $content->en_US }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $content->zh_TW }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $content->zh_CN }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $content->ja_JP }}</td>
-                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                <td class="px-3 py-2 text-sm text-gray-500">{{ $content->en_US }}</td>
+                <td class="px-3 py-2 text-sm text-gray-500">{{ $content->zh_TW }}</td>
+                <td class="px-3 py-2 text-sm text-gray-500">{{ $content->zh_CN }}</td>
+                <td class="px-3 py-2 text-sm text-gray-500">{{ $content->ja_JP }}</td>
+                <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                   <a href="#" wire:click="select({!! $content->id !!})"
                     class="text-indigo-600 hover:text-indigo-900">修改</a>
                   <a href="#" wire:click="selectDelete({!! $content->id !!})"
@@ -96,7 +98,7 @@
       <div class="mt-2">
         <label for="en_US" class="block text-sm font-medium leading-6 text-gray-900">en_US</label>
         <div class="mt-2">
-          <textarea rows="4" wire:model="selectedData.en_US" name="en_US" id="en_US"
+          <textarea rows="1" wire:model="selectedData.en_US" name="en_US" id="en_US"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
         </div>
       </div>
@@ -104,14 +106,14 @@
       <div class="mt-2">
         <label for="zh_TW" class="block text-sm font-medium leading-6 text-gray-900">zh_TW</label>
         <div class="mt-2">
-          <textarea rows="4" wire:model="selectedData.zh_TW" name="zh_TW" id="zh_TW"
+          <textarea rows="1" wire:model="selectedData.zh_TW" name="zh_TW" id="zh_TW"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
         </div>
         {{-- zh_CN --}}
         <div class="mt-2">
           <label for="zh_CN" class="block text-sm font-medium leading-6 text-gray-900">zh_CN</label>
           <div class="mt-2">
-            <textarea rows="4" wire:model="selectedData.zh_CN" name="zh_CN" id="zh_CN"
+            <textarea rows="1" wire:model="selectedData.zh_CN" name="zh_CN" id="zh_CN"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
           </div>
         </div>
@@ -119,7 +121,7 @@
         <div class="mt-2">
           <label for="ja_JP" class="block text-sm font-medium leading-6 text-gray-900">ja_JP</label>
           <div class="mt-2">
-            <textarea rows="4" wire:model="selectedData.ja_JP" name="ja_JP" id="ja_JP"
+            <textarea rows="1" wire:model="selectedData.ja_JP" name="ja_JP" id="ja_JP"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
           </div>
         </div>
@@ -167,4 +169,6 @@
 
   {{-- import DIALOG --}}
   @livewire('project.components.import-json-dialog', ["ref" => $showImportDialog, "project_id" => $project->id])
+  {{-- export DIALOG --}}
+  @livewire('project.components.export-json-dialog', ["ref" => $showExportDialog, "project_id" => $project->id])
 </div>
