@@ -21,7 +21,7 @@ class ExportJsonDialog extends Component
         {
             $data = array_merge($data, [$content['key'] => $content[$this->exportLang]]);
         }
-        $this->exportData = json_encode($data);
+        $this->exportData = json_encode($data, 320);
     }
 
     public function render()
